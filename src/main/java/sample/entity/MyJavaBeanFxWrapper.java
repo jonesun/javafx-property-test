@@ -11,7 +11,7 @@ import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
  * @author jone.sun
  * @date 2020-11-19 10:19
  */
-public class MyJavafxBean {
+public class MyJavaBeanFxWrapper {
 
     private MyJavaBean myJavaBean;
 
@@ -21,12 +21,12 @@ public class MyJavafxBean {
 
     private StringProperty myString;
 
-    public MyJavafxBean(MyJavaBean myJavaBean) throws NoSuchMethodException {
+    public MyJavaBeanFxWrapper(MyJavaBean myJavaBean) throws NoSuchMethodException {
         this.myJavaBean = myJavaBean;
         intProperty();
     }
 
-    private MyJavafxBean() {
+    private MyJavaBeanFxWrapper() {
     }
 
     @SuppressWarnings({"unchecked"})

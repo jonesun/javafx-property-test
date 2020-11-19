@@ -33,9 +33,9 @@
     <HBox spacing="10">
         <Button text="设置javaBean值" onAction="#doSetJavaBean" />
 
-        <Button text="设置javafxBean中的javaBean值" onAction="#doSetJavafxBean" />
+        <Button text="设置javaBeanFxWrapper中的javaBean值" onAction="#doSetJavaBeanFxWrapper" />
 
-        <Button text="设置javafxBean中xxxProperty值" onAction="#doSetJavafxBeanProperty" />
+        <Button text="设置javaBeanFxWrapper中xxxProperty值" onAction="#doSetJavaBeanFxWrapperProperty" />
     </HBox>
 
 

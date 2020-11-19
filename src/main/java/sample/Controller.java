@@ -6,12 +6,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 import sample.entity.MyJavaBean;
-import sample.entity.MyJavafxBean;
+import sample.entity.MyJavaBeanFxWrapper;
 
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.UUID;
 
 public class Controller implements Initializable {
 
@@ -19,7 +18,7 @@ public class Controller implements Initializable {
 
     public TextField intTextField, integerTextField, stringTextField;
 
-    private MyJavafxBean myJavafxBean;
+    private MyJavaBeanFxWrapper myJavaBeanFxWrapper;
     private MyJavaBean myJavaBean;
 
     @Override
@@ -29,15 +28,15 @@ public class Controller implements Initializable {
             myJavaBean = new MyJavaBean();
 
             //将java对象设置到javafx包装类中，以支持属性绑定
-            myJavafxBean = new MyJavafxBean(myJavaBean);
+            myJavaBeanFxWrapper = new MyJavaBeanFxWrapper(myJavaBean);
 
             //控件只做显示, 单向绑定即可
-            intLabel.textProperty().bind(myJavafxBean.myIntProperty().asString());
-            integerLabel.textProperty().bind(myJavafxBean.myIntegerProperty().asString());
-            stringLabel.textProperty().bind(myJavafxBean.myStringProperty());
+            intLabel.textProperty().bind(myJavaBeanFxWrapper.myIntProperty().asString());
+            integerLabel.textProperty().bind(myJavaBeanFxWrapper.myIntegerProperty().asString());
+            stringLabel.textProperty().bind(myJavaBeanFxWrapper.myStringProperty());
 
             //控件可编辑，双向绑定
-            intTextField.textProperty().bindBidirectional(myJavafxBean.myIntProperty(), new StringConverter<>() {
+            intTextField.textProperty().bindBidirectional(myJavaBeanFxWrapper.myIntProperty(), new StringConverter<>() {
                 @Override
                 public String toString(Number object) {
                     return String.valueOf(object);
@@ -49,7 +48,7 @@ public class Controller implements Initializable {
                 }
             });
 
-            integerTextField.textProperty().bindBidirectional(myJavafxBean.myIntegerProperty(), new StringConverter<>() {
+            integerTextField.textProperty().bindBidirectional(myJavaBeanFxWrapper.myIntegerProperty(), new StringConverter<>() {
                 @Override
                 public String toString(Integer object) {
                     return String.valueOf(object);
@@ -64,7 +63,7 @@ public class Controller implements Initializable {
                 }
             });
 
-            stringTextField.textProperty().bindBidirectional(myJavafxBean.myStringProperty());
+            stringTextField.textProperty().bindBidirectional(myJavaBeanFxWrapper.myStringProperty());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,31 +80,31 @@ public class Controller implements Initializable {
         print();
     }
 
-    public void doSetJavafxBean(ActionEvent actionEvent) {
-        System.out.println("------设置javafxBean中的javaBean值前------");
+    public void doSetJavaBeanFxWrapper(ActionEvent actionEvent) {
+        System.out.println("------设置javaBeanFxWrapper中的javaBean值前------");
         print();
-        myJavafxBean.getMyJavaBean().setMyInt(new Random().nextInt(100));
-        myJavafxBean.getMyJavaBean().setMyInteger(new Random().nextInt(100));
-        myJavafxBean.getMyJavaBean().setMyString(String.valueOf(System.currentTimeMillis()));
-        System.out.println("------设置javafxBean中的javaBean值后------");
+        myJavaBeanFxWrapper.getMyJavaBean().setMyInt(new Random().nextInt(100));
+        myJavaBeanFxWrapper.getMyJavaBean().setMyInteger(new Random().nextInt(100));
+        myJavaBeanFxWrapper.getMyJavaBean().setMyString(String.valueOf(System.currentTimeMillis()));
+        System.out.println("------设置javaBeanFxWrapper中的javaBean值后------");
         print();
     }
 
-    public void doSetJavafxBeanProperty(ActionEvent actionEvent) {
-        System.out.println("------设置javafxBean中xxxProperty值前------");
+    public void doSetJavaBeanFxWrapperProperty(ActionEvent actionEvent) {
+        System.out.println("------设置javaBeanFxWrapper中xxxProperty值前------");
         print();
-        myJavafxBean.myIntProperty().set(new Random().nextInt(100));
-        myJavafxBean.myIntegerProperty().set(new Random().nextInt(100));
-        myJavafxBean.myStringProperty().set(String.valueOf(System.currentTimeMillis()));
-        System.out.println("------设置javafxBean中xxxProperty值后------");
+        myJavaBeanFxWrapper.myIntProperty().set(new Random().nextInt(100));
+        myJavaBeanFxWrapper.myIntegerProperty().set(new Random().nextInt(100));
+        myJavaBeanFxWrapper.myStringProperty().set(String.valueOf(System.currentTimeMillis()));
+        System.out.println("------设置javaBeanFxWrapper中xxxProperty值后------");
         print();
     }
 
     private void print() {
         System.out.println("myJavaBean: " + myJavaBean.toString());
-        System.out.println("myJavafxBean>>myJavaBean: " + myJavafxBean.getMyJavaBean().toString());
-        System.out.println("myJavafxBean>>intProperty: " + myJavafxBean.myIntProperty().getValue());
-        System.out.println("myJavafxBean>>integerProperty: " + myJavafxBean.myIntegerProperty().getValue());
-        System.out.println("myJavafxBean>>stringProperty: " + myJavafxBean.myStringProperty().getValue());
+        System.out.println("javaBeanFxWrapper>>myJavaBean: " + myJavaBeanFxWrapper.getMyJavaBean().toString());
+        System.out.println("javaBeanFxWrapper>>intProperty: " + myJavaBeanFxWrapper.myIntProperty().getValue());
+        System.out.println("javaBeanFxWrapper>>integerProperty: " + myJavaBeanFxWrapper.myIntegerProperty().getValue());
+        System.out.println("javaBeanFxWrapper>>stringProperty: " + myJavaBeanFxWrapper.myStringProperty().getValue());
     }
 }
