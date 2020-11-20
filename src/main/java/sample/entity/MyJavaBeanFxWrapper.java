@@ -4,6 +4,8 @@ import javafx.beans.property.*;
 import javafx.beans.property.adapter.JavaBeanIntegerPropertyBuilder;
 import javafx.beans.property.adapter.JavaBeanObjectPropertyBuilder;
 import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -25,18 +27,18 @@ public class MyJavaBeanFxWrapper {
 
     private ListProperty<String> myStringList;
 
-    private ObjectProperty<MyChildJavaBean> myChildJavaBean;
+    private MyChildJavaBeanFxWrapper myChildJavaBeanFxWrapper;
 
     public MyJavaBeanFxWrapper(MyJavaBean myJavaBean) throws NoSuchMethodException {
         this.myJavaBean = myJavaBean;
-        intProperty();
+        initProperty();
     }
 
     private MyJavaBeanFxWrapper() {
     }
 
     @SuppressWarnings({"unchecked"})
-    private void intProperty() throws NoSuchMethodException {
+    private void initProperty() throws NoSuchMethodException {
 
         myInt = JavaBeanIntegerPropertyBuilder.create().bean(this.myJavaBean).name("myInt").build();
 
@@ -52,7 +54,12 @@ public class MyJavaBeanFxWrapper {
 
         myStringList.addListener((observable, oldValue, newValue) -> myJavaBean.setMyStringList(newValue));
 
-        myChildJavaBean = JavaBeanObjectPropertyBuilder.create().bean(this.myJavaBean).name("myChildJavaBean").build();
+        //todo 这里需将对象初始化下 否则无法直接绑定 后面看看如何在对象为null的情况下绑定属性
+        if(this.myJavaBean.getMyChildJavaBean() == null) {
+            this.myJavaBean.setMyChildJavaBean(new MyChildJavaBean());
+        }
+        myChildJavaBeanFxWrapper = new MyChildJavaBeanFxWrapper(this.myJavaBean.getMyChildJavaBean());
+
     }
 
     public MyJavaBean getMyJavaBean() {
@@ -61,7 +68,7 @@ public class MyJavaBeanFxWrapper {
 
     public void setMyJavaBean(MyJavaBean myJavaBean) throws NoSuchMethodException {
         this.myJavaBean = myJavaBean;
-        intProperty();
+        initProperty();
     }
 
     public int getMyInt() {
@@ -97,11 +104,7 @@ public class MyJavaBeanFxWrapper {
         return myStringList;
     }
 
-    public MyChildJavaBean getMyChildJavaBean() {
-        return myChildJavaBean.get();
-    }
-
-    public ObjectProperty<MyChildJavaBean> myChildJavaBeanProperty() {
-        return myChildJavaBean;
+    public MyChildJavaBeanFxWrapper getMyChildJavaBeanFxWrapper() {
+        return myChildJavaBeanFxWrapper;
     }
 }

@@ -49,4 +49,16 @@
         <Separator orientation="VERTICAL" />
         <Button text="删除" onAction="#doRemoveListValue" />
     </HBox>
+
+    <HBox spacing="10">
+        <Label text="str1: " />
+        <Label fx:id="str1Label" />
+        <TextField fx:id="str1TextField" />
+
+        <Separator orientation="VERTICAL" />
+
+        <Label text="str2: " />
+        <Label fx:id="str2Label" />
+        <TextField fx:id="str2TextField" />
+    </HBox>
 </VBox>

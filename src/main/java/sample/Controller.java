@@ -23,6 +23,8 @@ public class Controller implements Initializable {
     public TextField intTextField, integerTextField, stringTextField;
     public ListView<String> listView;
     public TextField listValueTextField;
+    public Label str1Label, str2Label;
+    public TextField str1TextField, str2TextField;
 
     private MyJavaBeanFxWrapper myJavaBeanFxWrapper;
     private MyJavaBean myJavaBean;
@@ -32,6 +34,7 @@ public class Controller implements Initializable {
         try {
             //定义java对象
             myJavaBean = new MyJavaBean();
+//            myJavaBean.setMyChildJavaBean(new MyChildJavaBean());
             //将java对象设置到javafx包装类中，以支持属性绑定
             myJavaBeanFxWrapper = new MyJavaBeanFxWrapper(myJavaBean);
 
@@ -72,6 +75,34 @@ public class Controller implements Initializable {
 
             listView.itemsProperty().bindBidirectional(myJavaBeanFxWrapper.myStringListProperty());
 
+//            myJavaBeanFxWrapper.myChildJavaBeanProperty().addListener(new ChangeListener<MyChildJavaBean>() {
+//                @Override
+//                public void changed(ObservableValue<? extends MyChildJavaBean> observable, MyChildJavaBean oldValue, MyChildJavaBean newValue) {
+//                    System.err.println("djkdjdkdkfjkd: " + newValue);
+//                }
+//            });
+
+            str1Label.textProperty().bindBidirectional(myJavaBeanFxWrapper.getMyChildJavaBeanFxWrapper().str1Property(), new StringConverter<String>() {
+                @Override
+                public String toString(String object) {
+                    if(object == null) {
+                        return "";
+                    }
+                    return object;
+                }
+
+                @Override
+                public String fromString(String string) {
+                    return string;
+                }
+            });
+
+            str1TextField.textProperty().bindBidirectional(myJavaBeanFxWrapper.getMyChildJavaBeanFxWrapper().str1Property());
+
+//            str2Label.textProperty().bind(myJavaBeanFxWrapper.getMyChildJavaBeanFxWrapper().str2Property());
+
+            str2TextField.textProperty().bindBidirectional(myJavaBeanFxWrapper.getMyChildJavaBeanFxWrapper().str2Property());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,15 +110,9 @@ public class Controller implements Initializable {
 
 
     public void doSetJavaBean(ActionEvent actionEvent) {
-        MyChildJavaBean myChildJavaBean = new MyChildJavaBean();
-        myChildJavaBean.setStr1("hello");
-        myChildJavaBean.setStr2("world");
-        myJavaBean.setMyChildJavaBean(myChildJavaBean);
-        myJavaBeanFxWrapper.myChildJavaBeanProperty().get().setStr1("hello1");
-        myJavaBean.getMyChildJavaBean().setStr2("999");
         System.out.println("sss: " + myJavaBean.getMyChildJavaBean());
-        System.out.println("sss: " + myJavaBeanFxWrapper.getMyChildJavaBean());
-        System.out.println("sss: " + myJavaBeanFxWrapper.myChildJavaBeanProperty().get());
+        System.out.println("sss: " + myJavaBeanFxWrapper.getMyChildJavaBeanFxWrapper().getStr1());
+        System.out.println("sss: " + myJavaBeanFxWrapper.getMyChildJavaBeanFxWrapper().getStr2());
         System.out.println("------设置javaBean值前------");
         print();
         myJavaBean.setMyInt(new Random().nextInt(100));
