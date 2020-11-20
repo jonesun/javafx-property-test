@@ -6,6 +6,8 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
 <VBox fx:controller="sample.Controller"
       xmlns:fx="http://javafx.com/fxml" spacing="10">
     <padding>
@@ -38,5 +40,13 @@
         <Button text="设置javaBeanFxWrapper中xxxProperty值" onAction="#doSetJavaBeanFxWrapperProperty" />
     </HBox>
 
+    <ListView fx:id="listView" prefWidth="300" prefHeight="300" />
 
+    <HBox spacing="10">
+        <Label text="添加: " />
+        <TextField fx:id="listValueTextField" text="abc" />
+        <Button text="确认" onAction="#doAddListValue" />
+        <Separator orientation="VERTICAL" />
+        <Button text="删除" onAction="#doRemoveListValue" />
+    </HBox>
 </VBox>

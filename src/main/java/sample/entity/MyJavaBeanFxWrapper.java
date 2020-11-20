@@ -4,6 +4,8 @@ import javafx.beans.property.*;
 import javafx.beans.property.adapter.JavaBeanIntegerPropertyBuilder;
 import javafx.beans.property.adapter.JavaBeanObjectPropertyBuilder;
 import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * 包装java对象的javafx测试类
@@ -20,6 +22,10 @@ public class MyJavaBeanFxWrapper {
     private ObjectProperty<Integer> myInteger;
 
     private StringProperty myString;
+
+    private ListProperty<String> myStringList;
+
+    private ObjectProperty<MyChildJavaBean> myChildJavaBean;
 
     public MyJavaBeanFxWrapper(MyJavaBean myJavaBean) throws NoSuchMethodException {
         this.myJavaBean = myJavaBean;
@@ -38,6 +44,15 @@ public class MyJavaBeanFxWrapper {
         myInteger = JavaBeanObjectPropertyBuilder.create().bean(this.myJavaBean).name("myInteger").build();
 
         myString = JavaBeanStringPropertyBuilder.create().bean(this.myJavaBean).name("myString").build();
+
+        myStringList = new SimpleListProperty<>(FXCollections.observableArrayList());
+        if (myJavaBean.getMyStringList() != null) {
+            myStringList.addAll(myJavaBean.getMyStringList());
+        }
+
+        myStringList.addListener((observable, oldValue, newValue) -> myJavaBean.setMyStringList(newValue));
+
+        myChildJavaBean = JavaBeanObjectPropertyBuilder.create().bean(this.myJavaBean).name("myChildJavaBean").build();
     }
 
     public MyJavaBean getMyJavaBean() {
@@ -74,4 +89,19 @@ public class MyJavaBeanFxWrapper {
         return myString;
     }
 
+    public ObservableList<String> getMyStringList() {
+        return myStringList.get();
+    }
+
+    public ListProperty<String> myStringListProperty() {
+        return myStringList;
+    }
+
+    public MyChildJavaBean getMyChildJavaBean() {
+        return myChildJavaBean.get();
+    }
+
+    public ObjectProperty<MyChildJavaBean> myChildJavaBeanProperty() {
+        return myChildJavaBean;
+    }
 }
