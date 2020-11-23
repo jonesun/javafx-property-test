@@ -9,7 +9,14 @@ module javafx.property.test {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.desktop;
+    requires spring.boot.autoconfigure;
+    requires spring.boot;
+    requires spring.context;
+    requires spring.core;
+    requires spring.beans;
 
     exports sample;
     exports sample.entity;
+    opens sample;
+    opens sample.service;
 }

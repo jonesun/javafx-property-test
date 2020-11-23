@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
+import org.springframework.stereotype.Component;
 import sample.entity.MyChildJavaBean;
 import sample.entity.MyJavaBean;
 import sample.entity.MyJavaBeanFxWrapper;
@@ -15,7 +16,10 @@ import sample.entity.MyJavaBeanFxWrapper;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
+import org.springframework.beans.factory.annotation.Autowired;
+import sample.service.MyJavaBeanService;
 
+@Component
 public class Controller implements Initializable {
 
     public Label intLabel, integerLabel, stringLabel;
@@ -28,6 +32,9 @@ public class Controller implements Initializable {
 
     private MyJavaBeanFxWrapper myJavaBeanFxWrapper;
     private MyJavaBean myJavaBean;
+
+    @Autowired
+    MyJavaBeanService myJavaBeanService;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -102,6 +109,8 @@ public class Controller implements Initializable {
 //            str2Label.textProperty().bind(myJavaBeanFxWrapper.getMyChildJavaBeanFxWrapper().str2Property());
 
             str2TextField.textProperty().bindBidirectional(myJavaBeanFxWrapper.getMyChildJavaBeanFxWrapper().str2Property());
+
+            System.out.println("ss: " + myJavaBeanService.getVersion());
 
         } catch (Exception e) {
             e.printStackTrace();
